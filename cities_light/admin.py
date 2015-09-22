@@ -62,7 +62,11 @@ class CityChangeList(ChangeList):
         if 'q' in list(request.GET.keys()):
             request.GET = copy(request.GET)
             request.GET['q'] = to_search(request.GET['q'])
-        return super(CityChangeList, self).get_query_set(request)
+        try:
+            super_get_queryset = super(CityChangeList, self).get_queryset
+        except AttributeError:
+            super_get_queryset = super(CityChangeList, self).get_query_set
+        return super_get_queryset(request)
     # Django 1.8 compat
     get_queryset = get_query_set
 
