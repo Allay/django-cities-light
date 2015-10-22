@@ -52,6 +52,11 @@ Or the development version::
 
 Add `cities_light` to your `INSTALLED_APPS`.
 
+Configure filters to exclude data you don't want, ie.::
+
+    CITIES_LIGHT_TRANSLATION_LANGUAGES = ['fr', 'en']
+    CITIES_LIGHT_INCLUDE_COUNTRIES = ['FR']
+
 Now, run syncdb, it will only create tables for models that are not disabled::
 
     ./manage.py syncdb
@@ -101,3 +106,5 @@ package updates.
 - `Continuous integration graciously hosted
   <http://travis-ci.org/yourlabs/django-cities-light>`_ by `Travis-ci
   <http://travis-ci.org>`_
+- `**Online paid support** provided via HackHands
+  <https://hackhands.com/jpic/>`_,

@@ -6,8 +6,11 @@ from django.contrib import admin
 from django.contrib.admin.views.main import ChangeList
 
 from .forms import *
-from .models import *
 from .settings import *
+from .abstract_models import to_search
+from .loading import get_cities_models
+
+Country, Region, City = get_cities_models()
 
 
 class CountryAdmin(admin.ModelAdmin):
@@ -58,12 +61,13 @@ admin.site.register(Region, RegionAdmin)
 
 
 class CityChangeList(ChangeList):
-    def get_query_set(self, request):
+    def get_queryset(self, request):
         if 'q' in list(request.GET.keys()):
             request.GET = copy(request.GET)
             request.GET['q'] = to_search(request.GET['q'])
-    # Django 1.8 compat
-    get_queryset = get_query_set
+        return super(CityChangeList, self).get_queryset(request)
+    # Django <1.8 compat
+    get_query_set = get_queryset
 
 
 class CityAdmin(admin.ModelAdmin):

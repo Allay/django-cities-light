@@ -10,10 +10,10 @@ It defines a urlpatterns variables, with the following urls:
 - cities-light-api-country-list
 - cities-light-api-country-detail
 
-If rest_framework (v2) is installed, all you have to do is add this url
+If rest_framework (v3) is installed, all you have to do is add this url
 include::
 
-    url(r'^cities_light/api/', include('cities_light.contrib.restframework2')),
+    url(r'^cities_light/api/', include('cities_light.contrib.restframework3')),
 
 And that's all !
 """
@@ -38,12 +38,13 @@ class CitySerializer(HyperlinkedModelSerializer):
     url = relations.HyperlinkedIdentityField(
         view_name='cities-light-api-city-detail')
     country = relations.HyperlinkedRelatedField(
-        view_name='cities-light-api-country-detail')
+        view_name='cities-light-api-country-detail', read_only=True)
     region = relations.HyperlinkedRelatedField(
-        view_name='cities-light-api-region-detail')
+        view_name='cities-light-api-region-detail', read_only=True)
 
     class Meta:
         model = City
+        exclude = ('slug',)
 
 
 class RegionSerializer(HyperlinkedModelSerializer):
@@ -53,10 +54,11 @@ class RegionSerializer(HyperlinkedModelSerializer):
     url = relations.HyperlinkedIdentityField(
         view_name='cities-light-api-region-detail')
     country = relations.HyperlinkedRelatedField(
-        view_name='cities-light-api-country-detail')
+        view_name='cities-light-api-country-detail', read_only=True)
 
     class Meta:
         model = Region
+        exclude = ('slug',)
 
 
 class CountrySerializer(HyperlinkedModelSerializer):
